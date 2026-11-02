@@ -147,3 +147,11 @@ Program ini dirancang dengan menerapkan prinsip dasar **Object-Oriented Programm
 3. **Mekanisme Restart Permainan:**
    - Saat status game over aktif, penekanan tombol `R` pada keyboard akan memicu pemanggilan metode `restartGame()`.
    - Seluruh status permainan dikembalikan ke kondisi awal: burung diposisikan kembali ke titik awal dengan kecepatan nol, daftar pipa dikosongkan, skor direset ke nilai 0, teks pada `JLabel` diperbarui kembali ke `"Score: 0"`, dan kedua timer dinyalakan kembali untuk memulai sesi permainan yang baru.
+
+---
+
+## 3. Dokumentasi
+
+[![YouTube Video](https://img.shields.io/badge/YouTube-Demonstrasi_Gameplay-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/RRjket6vOio)
+
+Tonton video demonstrasi gameplay Flappy Bird di YouTube: [https://youtu.be/RRjket6vOio](https://youtu.be/RRjket6vOio)

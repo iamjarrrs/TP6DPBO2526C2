@@ -89,7 +89,7 @@ Program ini dirancang dengan menerapkan prinsip dasar **Object-Oriented Programm
        - `gameLoop` (`javax.swing.Timer`): Dijalankan setiap $\approx 16.6$ milidetik (ekuivalen dengan 60 FPS). Setiap kali timer ini berdetak, metode `actionPerformed()` memanggil metode `move()` untuk memperbarui seluruh kalkulasi posisi dan kemudian meminta `View` untuk merender ulang kanvas melalui `view.repaint()`.
        - `pipesCooldown` (`javax.swing.Timer`): Dijalankan dengan interval 1500 milidetik (1.5 detik) untuk mengeksekusi metode `placePipes()`, yaitu membangkitkan sepasang pipa baru (pipa atas dan bawah) dengan posisi bukaan celah vertikal yang diacak secara proporsional.
      - **Simulasi Fisika (`move()`):**
-       - Menerapkan gravitasi konstan (`gravity = 1`) pada `velocityY` burung di setiap siklus.
+       - Menerapkan gravitasi presisi (`gravity = 0.7` piksel/frame) pada `velocityY` burung di setiap siklus dengan pembatas kecepatan jatuh maksimum (*terminal velocity*, `maxFallSpeed = 9.0`) agar burung memiliki bobot jatuh yang pas dan stabil.
        - Membatasi pergerakan burung agar tidak menembus batas atas kanvas (`Math.max(posY, 0)`).
        - Menggeser posisi semua pipa aktif ke arah kiri sebesar `pipeVelocityX = -2`.
      - **Deteksi Tabrakan (*AABB Collision Detection*):**
@@ -98,7 +98,7 @@ Program ini dirancang dengan menerapkan prinsip dasar **Object-Oriented Programm
      - **Penghitungan Skor:**
        - Mengevaluasi apakah burung telah melewati sisi kanan pipa atas yang belum pernah ditandai (`!pipe.isPassed()`). Jika terpenuhi, nilai `passed` diubah menjadi `true`, skor bertambah 1, dan `view.updateScore(score)` dipanggil untuk memperbarui tampilan label skor.
      - **Penanganan Input Keyboard (`KeyListener`):**
-       - Tombol `SPACE`: Memberikan dorongan kecepatan ke atas (`velocityY = -9`) agar burung melompat, hanya aktif saat permainan sedang berjalan (tidak game over).
+       - Tombol `SPACE`: Memberikan dorongan kecepatan ke atas secara seimbang (`jumpStrength = -7.5`) agar burung melompat secara responsif dan proporsional terhadap gravitasi, hanya aktif saat permainan sedang berjalan (tidak game over).
        - Tombol `R`: Melakukan restart permainan saat kondisi game over melalui pemanggilan `restartGame()`.
      - **State Game Over & Restart:**
        - Saat `gameOver == true`, kedua timer (`gameLoop` dan `pipesCooldown`) dihentikan agar seluruh animasi berhenti.
@@ -127,8 +127,8 @@ Program ini dirancang dengan menerapkan prinsip dasar **Object-Oriented Programm
 
 ### B. Alur Permainan Berjalan (Gameplay Loop)
 1. **Gravitasi & Pergerakan:**
-   - Setiap detak dari `gameLoop` (sekitar 60 kali per detik), nilai `gravity` diakumulasikan ke kecepatan vertikal burung (`velocityY`), sehingga burung mengalami percepatan jatuh bebas ke bawah.
-   - Pemain dapat menekan tombol `SPACE` pada keyboard untuk memberikan impuls ke atas secara instan (`velocityY = -9`), membuat burung mengepakkan sayap dan terbang melambung.
+   - Setiap detak dari `gameLoop` (sekitar 60 kali per detik), nilai `gravity` (`0.7`) diakumulasikan ke kecepatan vertikal burung (`velocityY`) dengan batas jatuh maksimal (`maxFallSpeed = 9.0`), sehingga burung memiliki dinamika jatuh yang responsif dan tidak meluncur tak terkendali.
+   - Pemain dapat menekan tombol `SPACE` pada keyboard untuk memberikan impuls ke atas secara seimbang (`velocityY = -7.5`), membuat burung mengepakkan sayap dan terbang melambung secara presisi.
 2. **Pergerakan Rintangan:**
    - Seluruh pipa yang terdapat di dalam koleksi `pipes` digeser ke arah kiri secara linier sesuai kecepatan horizontal `pipeVelocityX`.
    - Timer `pipesCooldown` secara periodik setiap 1.5 detik memanggil metode `placePipes()` untuk mengkalkulasi ketinggian acak dan menaruh sepasang pipa baru (pipa atas dan pipa bawah) di sisi kanan layar.

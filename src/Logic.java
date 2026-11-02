@@ -23,7 +23,9 @@ public class Logic implements ActionListener, KeyListener {
 
     Timer gameLoop;
     Timer pipesCooldown;
-    int gravity = 1;
+    double gravity = 0.7;
+    double jumpStrength = -7.5;
+    double maxFallSpeed = 9.0;
     int pipeVelocityX = -2;
 
     View view;
@@ -123,8 +125,8 @@ public class Logic implements ActionListener, KeyListener {
     }
 
     public void move(){
-        player.setVelocityY(player.getVelocityY() + gravity);
-        player.setPosY(player.getPosY() + player.getVelocityY());
+        player.setVelocityY(Math.min(player.getVelocityY() + gravity, maxFallSpeed));
+        player.setPosY((int) (player.getPosY() + player.getVelocityY()));
         player.setPosY(Math.max(player.getPosY(), 0));
 
         // Cek jika menabrak batas bawah
@@ -172,7 +174,7 @@ public class Logic implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
             if (!gameOver){
-                player.setVelocityY(-9);
+                player.setVelocityY(jumpStrength);
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_R){

@@ -7,7 +7,7 @@ public class Player {
     private int width;
     private int height;
     private Image image;
-    private int velocityY = -0;
+    private double velocityY = 0;
 
     public Player(int posX, int posY, int width, int height, Image image){
         this.posX = posX;
@@ -16,7 +16,7 @@ public class Player {
         this.height = height;
         this.image = image;
 
-        this.velocityY = -0;
+        this.velocityY = 0;
     }
 
     public int getPosX() {return posX;}
@@ -34,6 +34,6 @@ public class Player {
     public Image getImage(){return  image;}
     public void setImage(Image image){this.image = image;}
 
-    public int getVelocityY(){return  velocityY;}
-    public void setVelocityY(int velocityY){this.velocityY = velocityY;}
+    public double getVelocityY(){return  velocityY;}
+    public void setVelocityY(double velocityY){this.velocityY = velocityY;}
 }
